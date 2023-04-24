@@ -1,2 +1,2 @@
 streamlit
-gpt-index
+gpt-index==0.4.24
