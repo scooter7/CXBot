@@ -1,14 +1,2 @@
-re
-import
-gpt_index
 streamlit
-SimpleDirectoryReader
-GPTListIndex
-GPTSimpleVectorIndex
-LLMPredictor
-PromptHelper
-flangchain.chat_models
-ChatOpenAI
-sys
-os
-datetime
+gpt-index
