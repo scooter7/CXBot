@@ -1,5 +1,4 @@
 re
-import
 gpt_index
 SimpleDirectoryReader
 GPTListIndex
