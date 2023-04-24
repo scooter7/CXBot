@@ -1,1 +1,1 @@
-# XXBot
+# CXBot
