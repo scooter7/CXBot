@@ -6,7 +6,7 @@ import sys
 import os
 from datetime import datetime
 
-os.environ["OPENAI_API_KEY"] = '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'
+os.environ["OPENAI_API_KEY"] = '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'
 
 
 def construct_index(directory_path):
