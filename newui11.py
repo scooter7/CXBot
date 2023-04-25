@@ -6,7 +6,12 @@ import sys
 import os
 from datetime import datetime
 
-os.environ["key"] == st.secrets["value"])
+# Everything is accessible via the st.secrets dict:
+st.write("key", st.secrets["key"])
+# And the root-level secrets are also accessible as environment variables:
+st.write(
+	os.environ["key"] == st.secrets["key"])
+	
 
 
 def construct_index(directory_path):
