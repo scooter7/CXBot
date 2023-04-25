@@ -4,17 +4,8 @@ from gpt_index import SimpleDirectoryReader, GPTListIndex, GPTSimpleVectorIndex,
 from langchain.chat_models import ChatOpenAI
 import sys
 from datetime import datetime
-
-# Everything is accessible via the st.secrets dict:
-
-st.write("OPENAI_API_KEY:", st.secrets["OPENAI_API_KEY"])
-
-# And the root-level secrets are also accessible as environment variables:
-
 import os
 
-st.write(
-    "Has environment variables been set:",
     os.environ["OPENAI_API_KEY"] == st.secrets["OPENAI_API_KEY"],
 )
 	
