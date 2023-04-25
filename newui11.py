@@ -1,13 +1,20 @@
 import re
 import streamlit as st
-import os
 
-os.environ["OPENAI_API_KEY"] == st.secrets["OPENAI_API_KEY"]
+# Everything is accessible via the st.secrets dict:
+
+st.write("OPENAI_API_KEY", st.secrets["OPENAI_API_KEY"])
 
 from gpt_index import SimpleDirectoryReader, GPTListIndex, GPTSimpleVectorIndex, LLMPredictor, PromptHelper
 from langchain.chat_models import ChatOpenAI
 import sys
 from datetime import datetime
+import os
+
+st.write(
+    "Has environment variables been set:",
+    os.environ["OPENAI_API_KEY"] == st.secrets["dOPENAI_API_KEY"],
+)
 
 
 
