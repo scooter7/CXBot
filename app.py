@@ -50,13 +50,6 @@ def chatbot(input_text, first_name, email):
 
     os.makedirs(content_dir, exist_ok=True)
 
-    # Write the user question and chatbot response to a file in the content directory
-    filename = st.session_state.filename
-    file_path = os.path.join(content_dir, filename)
-    with open(file_path, 'a') as f:
-        f.write(f"{first_name} ({email}): {input_text}\n")
-        f.write(f"Chatbot response: {response.response}\n")
-
     # Write the chat file to GitHub
     with open(file_path, 'rb') as f:
         contents = f.read()
