@@ -3,14 +3,16 @@ import streamlit as st
 from gpt_index import SimpleDirectoryReader, GPTListIndex, GPTSimpleVectorIndex, LLMPredictor, PromptHelper
 from langchain.chat_models import ChatOpenAI
 import sys
-import os
 from datetime import datetime
 
 # Everything is accessible via the st.secrets dict:
-st.write("key", st.secrets["key"])
+st.write("DB username:", st.secrets["db_username"])
+st.write("My cool secrets:", st.secrets["my_cool_secrets"]["things_i_like"])
 # And the root-level secrets are also accessible as environment variables:
+import os
 st.write(
-	os.environ["key"] == st.secrets["key"])
+	"Has environment variables been set:",
+	os.environ["db_username"] == st.secrets["db_username"])
 	
 
 
