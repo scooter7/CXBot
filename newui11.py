@@ -1,10 +1,5 @@
 import re
 import streamlit as st
-
-# Everything is accessible via the st.secrets dict:
-
-st.write("OPENAI_API_KEY", st.secrets["OPENAI_API_KEY"])
-
 from gpt_index import SimpleDirectoryReader, GPTListIndex, GPTSimpleVectorIndex, LLMPredictor, PromptHelper
 from langchain.chat_models import ChatOpenAI
 import sys
