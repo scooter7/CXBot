@@ -6,7 +6,7 @@ import sys
 import os
 from datetime import datetime
 
-os.environ["key"] == st.secrets["key"])
+os.environ["key"] == st.secrets["value"])
 
 
 def construct_index(directory_path):
