@@ -15,8 +15,6 @@ openai_api_key = st.secrets["OPENAI_API_KEY"]
 logging.info(f"OPENAI_API_KEY: {openai_api_key}")
 
 
-
-	
 def construct_index(directory_path):
     max_input_size = 4096
     num_outputs = 512
