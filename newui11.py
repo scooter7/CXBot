@@ -6,7 +6,7 @@ import sys
 import os
 from datetime import datetime
 
-key = os.environ.get('OPENAI_API_KEY')
+os.environ["key"] == st.secrets["key"])
 
 
 def construct_index(directory_path):
