@@ -1,4 +1,4 @@
-import re
+import logging
 import streamlit as st
 from gpt_index import SimpleDirectoryReader, GPTListIndex, GPTSimpleVectorIndex, LLMPredictor, PromptHelper
 from langchain.chat_models import ChatOpenAI
@@ -6,10 +6,13 @@ import sys
 from datetime import datetime
 import os
 
-st.write(
-    "Has environment variables been set:",
-    os.environ["OPENAI_API_KEY"] == st.secrets["OPENAI_API_KEY"],
-)
+if "OPENAI_API_KEY" not in st.secrets:
+    st.error("Please set the OPENAI_API_KEY secret on the Streamlit dashboard.")
+    sys.exit(1)
+
+openai_api_key = st.secrets["OPENAI_API_KEY"]
+
+logging.info(f"OPENAI_API_KEY: {openai_api_key}")
 
 
 
