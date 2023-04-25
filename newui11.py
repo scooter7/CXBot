@@ -6,7 +6,7 @@ import sys
 import os
 from datetime import datetime
 
-os.environ["OPENAI_API_KEY"] = 'OPENAI_API_KEY'
+key = os.environ.get('OPENAI_API_KEY')
 
 
 def construct_index(directory_path):
