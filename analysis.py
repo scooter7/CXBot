@@ -64,7 +64,6 @@ def chatbot(input_text, first_name, email):
 
 
 content_directory_path = "content"
-
 for filename in os.listdir(directory_path):
     if filename.endswith(".txt"):
         file_path = os.path.join(directory_path, filename)
