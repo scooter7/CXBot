@@ -60,7 +60,7 @@ def chatbot(input_text, first_name, email):
     # Write the chat file to GitHub
     with open(file_path, 'rb') as f:
         contents = f.read()
-        repo.create_file(f"content/{filename}", f"Add chat file {filename}", Analysis)
+        repo.create_file(f"Analysis/{filename}", f"Add chat file {filename}", Analysis)
 
     return response.response
 
