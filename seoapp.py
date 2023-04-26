@@ -32,7 +32,7 @@ def construct_index(directory_path):
     # Load documents from the chat_history.txt file
     content_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "content")
     file_path = os.path.join(content_dir, "chat_history.txt")
-    with open(file_path, 'r') as f:
+    with open(file_path, 'rb') as f:
         documents = [line.strip() for line in f.readlines()]
 
     index = GPTSimpleVectorIndex(documents, llm_predictor=llm_predictor, prompt_helper=prompt_helper)
