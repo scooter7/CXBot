@@ -40,30 +40,19 @@ def construct_index(directory_path):
     return index
 
 
-def chatbot(input_text, first_name, email):
+def chatbot(input_text, first_name, email, repo):
     index = GPTSimpleVectorIndex.load_from_disk('index.json')
-    
-    # Create a filename based on the user's email address
-    filename = f"{email}.txt"
-    
-    # Create the content directory if it doesn't already exist
-    content_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "content")
-    os.makedirs(content_dir, exist_ok=True)
-    
-    # Check if a file with the same filename already exists in the content directory
-    file_path = os.path.join(content_dir, filename)
-    if not os.path.exists(file_path):
-        # Create a new file and write the user question and chatbot response to it
-        with open(file_path, 'w') as f:
-            f.write(f"{first_name} ({email}):\n")
-    else:
-        # Append the user question and chatbot response to the end of the file
-        with open(file_path, 'a') as f:
-            f.write('\n')
-    
     prompt = f"{first_name} ({email}): {input_text}"
     response = index.query(prompt, response_mode="compact")
 
+    # Create the content directory if it doesn't already exist
+    content_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "content")
+
+    os.makedirs(content_dir, exist_ok=True)
+
+    # Write the user question and chatbot response to a file in the content directory
+    filename = st.session_state.filename
+    file_path = os.path.join(content_dir, filename)
     with open(file_path, 'a') as f:
         f.write(f"{first_name} ({email}): {input_text}\n")
         f.write(f"Chatbot response: {response.response}\n")
@@ -72,8 +61,6 @@ def chatbot(input_text, first_name, email):
     with open(file_path, 'rb') as f:
         contents = f.read()
         repo.create_file(f"content/{filename}", f"Add chat file {filename}", contents)
-
-    st.session_state.filename = filename
 
     return response.response
 
