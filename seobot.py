@@ -40,7 +40,6 @@ def construct_index(directory_path):
     return index
 
 
-def chatbot(input_text, first_name, email):
 def chatbot(input_text, first_name, email, filename):
     index = GPTSimpleVectorIndex.load_from_disk('index.json')
     prompt = f"{first_name} ({email}): {input_text}"
