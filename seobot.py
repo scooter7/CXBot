@@ -41,20 +41,22 @@ def construct_index(directory_path):
 
 
 def chatbot(input_text, first_name, email):
-    # Set the filename key every time the function is called
-    filename = datetime.now().strftime("%Y-%m-%d_%H-%M-%S.txt")
+def chatbot(input_text, first_name, email, filename):
+    index = GPTSimpleVectorIndex.load_from_disk('index.json')
+    prompt = f"{first_name} ({email}): {input_text}"
+    response = index.query(prompt, response_mode="compact")
 
     # Create the content directory if it doesn't already exist
     content_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "content")
+
     os.makedirs(content_dir, exist_ok=True)
 
     # Write the user question and chatbot response to a file in the content directory
     file_path = os.path.join(content_dir, filename)
     with open(file_path, 'a') as f:
         f.write(f"{first_name} ({email}): {input_text}\n")
-        response = index.query(f"{first_name} ({email}): {input_text}", response_mode="compact")
         f.write(f"Chatbot response: {response.response}\n")
-
+        
     # Write the chat file to GitHub
     with open(file_path, 'rb') as f:
         contents = f.read()
