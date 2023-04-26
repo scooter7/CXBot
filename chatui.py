@@ -47,11 +47,13 @@ def chatbot(input_text, first_name, email):
 
     # Create the content directory if it doesn't already exist
     content_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "content")
-
     os.makedirs(content_dir, exist_ok=True)
 
-    # Write the user question and chatbot response to a file in the content directory
-    filename = st.session_state.filename
+    # Set the filename key every time the form is submitted
+    filename = datetime.now().strftime("%Y-%m-%d.txt")
+    st.session_state.filename = filename
+    
+    # Open the file in append mode and write the user question and chatbot response to it
     file_path = os.path.join(content_dir, filename)
     with open(file_path, 'a') as f:
         f.write(f"{first_name} ({email}): {input_text}\n")
@@ -61,12 +63,6 @@ def chatbot(input_text, first_name, email):
     with open(file_path, 'rb') as f:
         contents = f.read()
         repo.create_file(f"content/{filename}", f"Add chat file {filename}", contents)
-
-    # Append the message and response to the chat history file
-    chat_history_path = os.path.join(content_dir, "chat_history.txt")
-    with open(chat_history_path, "a") as f:
-        f.write(f"{first_name} ({email}): {input_text}\n")
-        f.write(f"Chatbot response: {response.response}\n")
 
     return response.response
 
