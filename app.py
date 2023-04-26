@@ -43,31 +43,26 @@ def construct_index(directory_path):
 def chatbot(input_text, first_name, email):
     index = GPTSimpleVectorIndex.load_from_disk('index.json')
     prompt = f"{first_name} ({email}): {input_text}"
-    response = index.query(prompt)
+    response = index.query(prompt, response_mode="compact")
 
     # Create the content directory if it doesn't already exist
     content_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "content")
+
     os.makedirs(content_dir, exist_ok=True)
 
-    # Get the file path for the chat history
-    if "chat_history_file" not in st.session_state:
-        chat_history_file = os.path.join(content_dir, f"{first_name}_{email}_chat_history.txt")
-        st.session_state.chat_history_file = chat_history_file
-    else:
-        chat_history_file = st.session_state.chat_history_file
-
-    # Write the user question and chatbot response to the chat history file
-    with open(chat_history_file, 'a') as f:
+    # Write the user question and chatbot response to a file in the content directory
+    filename = st.session_state.filename
+    file_path = os.path.join(content_dir, filename)
+    with open(file_path, 'a') as f:
         f.write(f"{first_name} ({email}): {input_text}\n")
-        f.write(f"Chatbot response: {response}\n")
-
-    # Write the chat history file to GitHub
-    with open(chat_history_file, 'rb') as f:
+        f.write(f"Chatbot response: {response.response}\n")
+        
+    # Write the chat file to GitHub
+    with open(file_path, 'rb') as f:
         contents = f.read()
-        repo.create_file(f"content/{os.path.basename(chat_history_file)}", f"Add chat history file {os.path.basename(chat_history_file)}", contents)
+        repo.create_file(f"content/{filename}", f"Add chat file {filename}", contents)
 
-    return response
-
+    return response.response
 
 
 docs_directory_path = "docs"
@@ -116,5 +111,4 @@ if form_submit_button and input_text:
 
 # Clear the input field after sending a message
 form.empty()
-
 
