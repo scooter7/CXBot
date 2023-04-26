@@ -95,7 +95,7 @@ form_submit_button = form.form_submit_button(label="Send")
 
 if form_submit_button and input_text:
     # Set the filename key every time the form is submitted
-    filename = datetime.now().strftime("%Y-%m-%d_%H-%M-%S.txt")
+    filename = datetime.now().strftime("%Y-%m-%d_%H-%M-%S.pdf")
     st.session_state.filename = filename
     
     response = chatbot(input_text, first_name, email)
