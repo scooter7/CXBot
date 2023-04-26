@@ -93,8 +93,8 @@ else:
     first_name = st.session_state.first_name
     email = st.session_state.email
 
-input_text = form.text_input("Enter your message:")
-form_submit_button = form.form_submit_button(label="Send")
+    input_text = form.text_input("Enter your message:")
+    form_submit_button = form.form_submit_button(label="Send")
     
     # Generate the chatbot's response
     response = chatbot(input_text, first_name, email)
