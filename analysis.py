@@ -67,10 +67,11 @@ content_directory_path = "content"
 
 for filename in os.listdir(directory_path):
     if filename.endswith(".txt"):
-    file_path = os.path.join(directory_path, filename)
-    with open(file_path, "r") as file:
-    file_contents = file.read()
-    # process file contents here
+        file_path = os.path.join(directory_path, filename)
+        with open(file_path, "r") as file:
+            file_contents = file.read()
+            # process file contents here
+
             
 index = construct_index(content_directory_path)
 
