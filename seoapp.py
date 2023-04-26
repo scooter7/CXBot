@@ -65,7 +65,7 @@ def chatbot(input_text, first_name, email):
     contents = ''
     for file in os.listdir(content_dir):
         if file.endswith('.txt'):
-            with open(os.path.join(content_dir, file), 'r') as f:
+            with open(os.path.join(content_dir, file), 'rb') as f:
                 contents += f.read() + '\n\n'
 
     # Write the chat file to Github
