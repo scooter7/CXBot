@@ -112,7 +112,7 @@ else:
 
     if form_submit_button and input_text:
     # Add the current input to the chat history
-    chat_history.append(f"{first_name}: {input_text}")
+        chat_history.append(f"{first_name}: {input_text}")
 
     # Save the first name and email in session state
     st.session_state.first_name = first_name
