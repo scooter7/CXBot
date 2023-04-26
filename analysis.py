@@ -25,9 +25,6 @@ def construct_index(directory_path):
     max_chunk_overlap = 20
     chunk_size_limit = 600
 
-# load the .txt data and convert it into an index
-    documents_txt = SimpleDirectoryReader('data').load_data()prompt_helper = PromptHelper(max_input_size, num_outputs, max_chunk_overlap, chunk_size_limit=chunk_size_limit)
-
     llm_predictor = LLMPredictor(llm=ChatOpenAI(temperature=0.7, model_name="gpt-3.5-turbo", max_tokens=num_outputs))
 
     documents = SimpleDirectoryReader(directory_path).load_data()
@@ -67,6 +64,14 @@ def chatbot(input_text, first_name, email):
 
 
 content_directory_path = "content"
+
+for filename in os.listdir(directory_path):
+if filename.endswith(".txt"):
+file_path = os.path.join(directory_path, filename)
+with open(file_path, "r") as file:
+file_contents = file.read()
+# process file contents here
+            
 index = construct_index(content_directory_path)
 
 st.set_page_config(page_title="Analysis")
