@@ -47,20 +47,24 @@ def chatbot(input_text, first_name, email):
 
     # Create the content directory if it doesn't already exist
     content_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "content")
-
     os.makedirs(content_dir, exist_ok=True)
 
-    # Write the user question and chatbot response to a file in the content directory
-    filename = st.session_state.filename
-    file_path = os.path.join(content_dir, filename)
-    with open(file_path, 'a') as f:
+    # Get the file path for the chat history
+    if "chat_history_file" not in st.session_state:
+        chat_history_file = os.path.join(content_dir, f"{first_name}_{email}_chat_history.txt")
+        st.session_state.chat_history_file = chat_history_file
+    else:
+        chat_history_file = st.session_state.chat_history_file
+
+    # Write the user question and chatbot response to the chat history file
+    with open(chat_history_file, 'a') as f:
         f.write(f"{first_name} ({email}): {input_text}\n")
         f.write(f"Chatbot response: {response.response}\n")
-        
-    # Write the chat file to GitHub
-    with open(file_path, 'rb') as f:
+
+    # Write the chat history file to GitHub
+    with open(chat_history_file, 'rb') as f:
         contents = f.read()
-        repo.create_file(f"content/{filename}", f"Add chat file {filename}", contents)
+        repo.create_file(f"content/{os.path.basename(chat_history_file)}", f"Add chat history file {os.path.basename(chat_history_file)}", contents)
 
     return response.response
 
