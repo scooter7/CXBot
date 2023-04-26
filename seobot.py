@@ -40,15 +40,19 @@ def construct_index(directory_path):
     return index
 
 
-def chatbot(input_text, first_name, email, repo):
+def chatbot(input_text, first_name, email):
     index = GPTSimpleVectorIndex.load_from_disk('index.json')
     prompt = f"{first_name} ({email}): {input_text}"
     response = index.query(prompt, response_mode="compact")
 
     # Create the content directory if it doesn't already exist
     content_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "content")
-
     os.makedirs(content_dir, exist_ok=True)
+
+    # Set the filename key every time a new chat session is started
+    if "filename" not in st.session_state:
+        filename = datetime.now().strftime("%Y-%m-%d_%H-%M-%S.txt")
+        st.session_state.filename = filename
 
     # Write the user question and chatbot response to a file in the content directory
     filename = st.session_state.filename
