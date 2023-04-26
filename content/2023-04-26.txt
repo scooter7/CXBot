@@ -1,3 +1,0 @@
-Frank (f@a,org): Describe SEO for higher ed
-Chatbot response: 
-Search engine optimization (SEO) for higher education involves optimizing title tags and meta descriptions, as well as clearly delineating degree designation and delivery format. Title tags should clearly state that the link leads to a graduate program page and not undergraduate, and meta descriptions should include information on scholarships, tuition, admissions requirements, and program length and format. Additionally, metadata should use the same terminology prospects are searching. Finally, program pages should clearly delineate degree designation and delivery format, such as whether the program is all online, hybrid, or in person, and how many credit hours are needed to complete the degree.

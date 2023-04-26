@@ -1,3 +1,0 @@
-J (j@s.net): Describe higher ed SEO best practices?
-Chatbot response: 
-Higher ed SEO best practices include optimizing websites for sitelinks, optimizing images for search results, claiming and optimizing Google Business Profiles, and optimizing content for questions and answers. Optimizing websites for sitelinks involves having a clear and intuitive information architecture and housing content properly under the correct folders. Optimizing images for search results involves including keywords in the file name, title text, and alt text, as well as compressing images to decrease load time. Optimizing content for questions and answers involves building entire pieces of content around answering a single question, or working multiple questions and answers into a page.
