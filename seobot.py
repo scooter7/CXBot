@@ -1,5 +1,3 @@
-I'm going to give you some code. The current code results in each message being saved as a separate text file in the content directory. I want you to revise it so that the entire chat history for each user in a single session is saved to a single text file in the content directory:
-
 import logging
 import streamlit as st
 from gpt_index import SimpleDirectoryReader, GPTListIndex, GPTSimpleVectorIndex, LLMPredictor, PromptHelper
