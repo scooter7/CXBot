@@ -70,11 +70,11 @@ index = construct_index(docs_directory_path)
 
 st.set_page_config(page_title="Carnegie Chatbot")
 
-# Display the initial message in the chat
-chat_container.write("This is a proof-of-concept chatbot for Carnegie")
-
 # Create a container to hold the chat messages
 chat_container = st.container()
+
+# Display the initial message in the chat
+chat_container.write("This is a proof-of-concept chatbot for Carnegie")
 
 # Initialize last_send_pressed to False in session state
 if "last_send_pressed" not in st.session_state:
