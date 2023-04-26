@@ -95,10 +95,6 @@ else:
 
 input_text = form.text_input("Enter your message:")
 form_submit_button = form.form_submit_button(label="Send")
-
-if form_submit_button and input_text:
-    # Add the current input to the chat history
-    chat_history.append(f"{first_name}: {input_text}")
     
     # Generate the chatbot's response
     response = chatbot(input_text, first_name, email)
@@ -114,10 +110,9 @@ if form_submit_button and input_text:
     # Update the session state with the filename
     st.session_state.filename = filename
 
-    # Write the user message and chatbot response to the chat container
-    with chat_container:
-        st.write(f"{first_name}: {input_text}")
-        st.write(f"Chatbot: {response}")
+    if form_submit_button and input_text:
+    # Add the current input to the chat history
+    chat_history.append(f"{first_name}: {input_text}")
 
     # Save the first name and email in session state
     st.session_state.first_name = first_name
