@@ -41,39 +41,24 @@ def construct_index(directory_path):
 
 
 def chatbot(input_text, first_name, email):
-    index = GPTSimpleVectorIndex.load_from_disk('index.json')
-    prompt = f"{first_name} ({email}): {input_text}"
-    response = index.query(prompt, response_mode="compact")
+    # Set the filename key every time the function is called
+    filename = datetime.now().strftime("%Y-%m-%d_%H-%M-%S.txt")
 
     # Create the content directory if it doesn't already exist
     content_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "content")
     os.makedirs(content_dir, exist_ok=True)
 
-    # Get the file name from session state or create a new one
-    if "filename" in st.session_state:
-        filename = st.session_state.filename
-    else:
-        filename = datetime.now().strftime("%Y-%m-%d_%H-%M-%S.txt")
-        st.session_state.filename = filename
-
-    # Write the user question and chatbot response to the session file
+    # Write the user question and chatbot response to a file in the content directory
     file_path = os.path.join(content_dir, filename)
     with open(file_path, 'a') as f:
         f.write(f"{first_name} ({email}): {input_text}\n")
+        response = index.query(f"{first_name} ({email}): {input_text}", response_mode="compact")
         f.write(f"Chatbot response: {response.response}\n")
 
-    # Write the chat file to GitHub at the end of the session
-    if st.session_state.last_send_pressed:
-        with open(file_path, 'rb') as f:
-            contents = f.read()
-            repo.create_file(f"content/{filename}", f"Add chat file {filename}", contents)
-
-    # Set last_send_pressed to True if form_submit_button is pressed
-    form_submit_button = st.form_submit_button(label="Send")
-    if form_submit_button:
-        st.session_state.last_send_pressed = True
-    else:
-        st.session_state.last_send_pressed = False
+    # Write the chat file to GitHub
+    with open(file_path, 'rb') as f:
+        contents = f.read()
+        repo.create_file(f"content/{filename}", f"Add chat file {filename}", contents)
 
     return response.response
 
@@ -105,6 +90,9 @@ else:
 
 input_text = form.text_input("Enter your message:")
 form_submit_button = form.form_submit_button(label="Send")
+if form_submit_button and input_text:
+    response = chatbot(input_text, first_name, email, filename)
+
 
 if form_submit_button and input_text:
     # Set the filename key every time the form is submitted
