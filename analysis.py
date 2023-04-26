@@ -60,12 +60,12 @@ def chatbot(input_text, first_name, email):
     # Write the chat file to GitHub
     with open(file_path, 'rb') as f:
         contents = f.read()
-        repo.create_file(f"content/{filename}", f"Add chat file {filename}", contents)
+        repo.create_file(f"content/{filename}", f"Add chat file {filename}", Analysis)
 
     return response.response
 
 
-docs_directory_path = "content"
+content_directory_path = "content"
 index = construct_index(content_directory_path)
 
 st.set_page_config(page_title="Analysis")
