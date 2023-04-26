@@ -25,7 +25,8 @@ def construct_index(directory_path):
     max_chunk_overlap = 20
     chunk_size_limit = 600
 
-    prompt_helper = PromptHelper(max_input_size, num_outputs, max_chunk_overlap, chunk_size_limit=chunk_size_limit)
+# load the .txt data and convert it into an index
+    documents_txt = SimpleDirectoryReader('data').load_data()prompt_helper = PromptHelper(max_input_size, num_outputs, max_chunk_overlap, chunk_size_limit=chunk_size_limit)
 
     llm_predictor = LLMPredictor(llm=ChatOpenAI(temperature=0.7, model_name="gpt-3.5-turbo", max_tokens=num_outputs))
 
