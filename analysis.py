@@ -48,6 +48,7 @@ def chatbot(input_text, first_name, email):
 
     # Create the content directory if it doesn't already exist
     content_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "content")
+
     os.makedirs(content_dir, exist_ok=True)
 
     # Write the user question and chatbot response to a file in the content directory
@@ -56,25 +57,18 @@ def chatbot(input_text, first_name, email):
     with open(file_path, 'a') as f:
         f.write(f"{first_name} ({email}): {input_text}\n")
         f.write(f"Chatbot response: {response.response}\n")
-        
+
+    # Convert the file to PDF
+    pdf_filename = os.path.splitext(filename)[0] + ".pdf"
+    pdf_file_path = os.path.join(content_dir, pdf_filename)
+    docx2pdf.convert(file_path, pdf_file_path)
+
     # Write the chat file to GitHub
-    with open(file_path, 'rb') as f:
+    with open(pdf_file_path, 'rb') as f:
         contents = f.read()
-        repo.create_file(f"content/{filename}", f"Add chat file {filename}", contents)
-
-    # Convert the docx file to PDF
-    if filename.endswith('.docx'):
-        pdf_filename = filename.replace('.docx', '.pdf')
-        pdf_file_path = os.path.join(content_dir, pdf_filename)
-        docx2pdf.convert(file_path, pdf_file_path)
-
-        # Write the PDF file to GitHub
-        with open(pdf_file_path, 'rb') as f:
-            contents = f.read()
-            repo.create_file(f"content/{pdf_filename}", f"Add PDF file {pdf_filename}", contents)
+        repo.create_file(f"content/{pdf_filename}", f"Add chat file {pdf_filename}", contents)
 
     return response.response
-
 
 
 docs_directory_path = "docs"
