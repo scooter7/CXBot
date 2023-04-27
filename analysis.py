@@ -4,7 +4,7 @@ import sys
 from datetime import datetime
 import os
 from github import Github
-import python-docx
+import docx
 from gpt_index import SimpleDirectoryReader, GPTListIndex, GPTSimpleVectorIndex, LLMPredictor, PromptHelper
 from langchain.chat_models import ChatOpenAI
 
