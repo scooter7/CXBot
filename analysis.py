@@ -48,7 +48,6 @@ def chatbot(input_text, first_name, email):
 
     # Create the content directory if it doesn't already exist
     analysis_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "analysis")
-
     os.makedirs(analysis_dir, exist_ok=True)
 
     # Write the user question and chatbot response to a file in the analysis directory
@@ -60,11 +59,11 @@ def chatbot(input_text, first_name, email):
         
     # Write the chat file to GitHub
     pdf = FPDF()
-pdf.add_page()
-pdf.set_font("Arial", size=12)
-pdf.cell(200, 10, txt=f"{first_name} ({email}): {input_text}\n", ln=1)
-pdf.cell(200, 10, txt=f"Chatbot response: {response.response}\n", ln=1)
-pdf.output(file_path, "F")
+    pdf.add_page()
+    pdf.set_font("Arial", size=12)
+    pdf.cell(200, 10, txt=f"{first_name} ({email}): {input_text}\n", ln=1)
+    pdf.cell(200, 10, txt=f"Chatbot response: {response.response}\n", ln=1)
+    pdf.output(file_path, "F")
 
     return response.response
 
