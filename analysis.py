@@ -66,7 +66,7 @@ pdf.cell(200, 10, txt=f"{first_name} ({email}): {input_text}\n", ln=1)
 pdf.cell(200, 10, txt=f"Chatbot response: {response.response}\n", ln=1)
 pdf.output(file_path, "F")
 
-return response.response
+    return response.response
 
 
 docs_directory_path = "content"
