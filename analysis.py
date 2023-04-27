@@ -5,7 +5,7 @@ from langchain.chat_models import ChatOpenAI
 import sys
 from datetime import datetime
 import os
-importfpdf
+import fpdf
 from github import Github
 
 if "OPENAI_API_KEY" not in st.secrets:
