@@ -28,6 +28,7 @@ Deprecated==1.2.13
 distlib==0.3.6
 dnspython==2.3.0
 docker==6.0.1
+docx2pdf==0.1.8
 docx2python==2.6.0
 docx2txt==0.8
 duckduckgo-search==2.8.6
