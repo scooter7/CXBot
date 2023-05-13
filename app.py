@@ -112,3 +112,12 @@ if form_submit_button and input_text:
 # Clear the input field after sending a message
 form.empty()
 
+hide_st_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_st_style, unsafe_allow_html=True)
+
