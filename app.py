@@ -68,7 +68,7 @@ def chatbot(input_text, first_name, email):
 docs_directory_path = "docs"
 index = construct_index(docs_directory_path)
 
-st.set_page_config(page_title="Carnegie Chatbot")
+st.set_page_config(page_title="Search Engine of the Obscure")
 
 # Create a container to hold the chat messages
 chat_container = st.container()
