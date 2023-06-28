@@ -68,7 +68,7 @@ def chatbot(input_text, first_name, email):
 docs_directory_path = "docs"
 index = construct_index(docs_directory_path)
 
-st.set_page_config(page_title="Search Engine of the Obscure")
+st.set_page_config(page_title="3-Year Degree Feedback")
 
 # Create a container to hold the chat messages
 chat_container = st.container()
