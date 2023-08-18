@@ -36,11 +36,9 @@ if "current_question_index" not in st.session_state:
     st.session_state.current_question_index = 0
 if "awaiting_follow_up" not in st.session_state:
     st.session_state.awaiting_follow_up = False
-if "follow_up_question" not in st.session_state:
-    st.session_state.follow_up_question = ""
 
 if st.session_state.awaiting_follow_up:
-    current_question = st.session_state.follow_up_question
+    current_question = chatbot(st.session_state.last_user_response)
 else:
     current_question = questions[st.session_state.current_question_index].strip()
 
@@ -49,13 +47,13 @@ input_text = form.text_input(current_question)
 if form.form_submit_button() and input_text:
     with chat_container:
         st.write(f"{first_name}: {input_text}")
-        
+
         if st.session_state.awaiting_follow_up:
             st.session_state.awaiting_follow_up = False
             st.session_state.current_question_index += 1
         else:
             st.session_state.awaiting_follow_up = True
-            st.session_state.follow_up_question = chatbot(input_text)
+        st.session_state.last_user_response = input_text
 
 form.empty()
 
