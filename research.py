@@ -3,7 +3,7 @@ from gpt_index import SimpleDirectoryReader, GPTSimpleVectorIndex, LLMPredictor,
 from langchain.chat_models import ChatOpenAI
 from datetime import datetime
 import os
-import python-docx
+from docx import Document
 
 def construct_index(directory_path):
     prompt_helper = PromptHelper(4096, 512, 20, chunk_size_limit=600)
