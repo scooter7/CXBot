@@ -3,6 +3,7 @@ from gpt_index import SimpleDirectoryReader, GPTSimpleVectorIndex, LLMPredictor,
 from langchain.chat_models import ChatOpenAI
 from datetime import datetime
 import os
+import python-docx
 
 def construct_index(directory_path):
     prompt_helper = PromptHelper(4096, 512, 20, chunk_size_limit=600)
@@ -23,9 +24,10 @@ docs_directory_path = "docs"
 index = construct_index(docs_directory_path)
 
 # Load the questions from the questions document
-with open(os.path.join(docs_directory_path, "questions.docx"), 'r', encoding="ISO-8859-1") as file:
+from docx import Document
 
-    questions = file.readlines()
+doc = Document(os.path.join(docs_directory_path, "questions.docx"))
+questions = [para.text for para in doc.paragraphs if para.text]
 
 st.set_page_config(page_title="3-Year Degree Feedback")
 
