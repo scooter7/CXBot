@@ -32,6 +32,8 @@ email = form.text_input("Enter your email address:", key="email")
 
 if "question_state" not in st.session_state:
     st.session_state.question_state = 0
+if "follow_up" not in st.session_state:
+    st.session_state.follow_up = ""
 
 if st.session_state.question_state % 2 == 0:
     current_question = questions[st.session_state.question_state // 2]
