@@ -1,8 +1,6 @@
-import logging
 import streamlit as st
 from gpt_index import SimpleDirectoryReader, GPTListIndex, GPTSimpleVectorIndex, LLMPredictor, PromptHelper
 from langchain.chat_models import ChatOpenAI
-import sys
 from datetime import datetime
 import os
 from github import Github
@@ -55,6 +53,9 @@ if "admin_question" not in st.session_state:
 if "answered_admin_question" not in st.session_state:
     st.session_state.answered_admin_question = False
 
+if "follow_up_question" not in st.session_state:
+    st.session_state.follow_up_question = ""
+
 form = st.form(key="my_form", clear_on_submit=True)
 
 if "first_send" not in st.session_state:
@@ -70,6 +71,8 @@ else:
 
 if not st.session_state.answered_admin_question:
     input_text = form.text_input(st.session_state.admin_question)
+elif st.session_state.follow_up_question:
+    input_text = form.text_input(st.session_state.follow_up_question)
 else:
     input_text = form.text_input("Enter your message:")
 
@@ -77,14 +80,15 @@ if form.form_submit_button() and input_text:
     if not st.session_state.answered_admin_question:
         st.session_state.answered_admin_question = True
         response = chatbot(input_text, first_name, email)
-        st.session_state.admin_question = response
+        st.session_state.follow_up_question = response
+    elif st.session_state.follow_up_question:
+        response = chatbot(input_text, first_name, email)
+        st.session_state.follow_up_question = ""
     else:
         response = chatbot(input_text, first_name, email)
-        with chat_container:
-            st.write(f"{first_name}: {input_text}")
-            st.write(f"Chatbot: {response}")
-        st.session_state.first_name = first_name
-        st.session_state.email = email
+    with chat_container:
+        st.write(f"{first_name}: {input_text}")
+        st.write(f"Chatbot: {response}")
 
 form.empty()
 
