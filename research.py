@@ -7,10 +7,6 @@ from datetime import datetime
 import os
 from github import Github
 
-if "OPENAI_API_KEY" not in st.secrets:
-    st.error("Please set the OPENAI_API_KEY secret on the Streamlit dashboard.")
-    sys.exit(1)
-
 openai_api_key = st.secrets["OPENAI_API_KEY"]
 g = Github(st.secrets["GITHUB_TOKEN"])
 repo = g.get_repo("scooter7/CXBot")
@@ -33,6 +29,8 @@ def chatbot(input_text, first_name, email):
     response = index.query(prompt, response_mode="compact")
     content_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "content")
     os.makedirs(content_dir, exist_ok=True)
+    if "filename" not in st.session_state:
+        st.session_state.filename = datetime.now().strftime("%Y-%m-%d_%H-%M-%S.docx")
     filename = st.session_state.filename
     file_path = os.path.join(content_dir, filename)
     with open(file_path, 'a') as f:
@@ -81,8 +79,6 @@ if form.form_submit_button() and input_text:
         response = chatbot(input_text, first_name, email)
         st.session_state.admin_question = response
     else:
-        filename = datetime.now().strftime("%Y-%m-%d_%H-%M-%S.docx")
-        st.session_state.filename = filename
         response = chatbot(input_text, first_name, email)
         with chat_container:
             st.write(f"{first_name}: {input_text}")
