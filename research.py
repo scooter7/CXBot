@@ -23,7 +23,8 @@ docs_directory_path = "docs"
 index = construct_index(docs_directory_path)
 
 # Load the questions from the questions document
-with open(os.path.join(docs_directory_path, "questions.docx"), 'r') as file:
+with open(os.path.join(docs_directory_path, "questions.docx"), 'r', encoding="ISO-8859-1") as file:
+
     questions = file.readlines()
 
 st.set_page_config(page_title="3-Year Degree Feedback")
