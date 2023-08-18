@@ -30,26 +30,25 @@ form = st.form(key="my_form", clear_on_submit=True)
 first_name = form.text_input("Enter your first name:", key="first_name")
 email = form.text_input("Enter your email address:", key="email")
 
-if "current_question_index" not in st.session_state:
-    st.session_state.current_question_index = 0
-if "is_follow_up" not in st.session_state:
-    st.session_state.is_follow_up = False
+if "interaction_step" not in st.session_state:
+    st.session_state.interaction_step = 0
 if "follow_up" not in st.session_state:
     st.session_state.follow_up = ""
 
-current_question = st.session_state.follow_up if st.session_state.is_follow_up else questions[st.session_state.current_question_index]
+if st.session_state.interaction_step % 2 == 0:
+    current_question = questions[st.session_state.interaction_step // 2]
+else:
+    current_question = st.session_state.follow_up
+
 input_text = form.text_input(current_question)
 
 if form.form_submit_button() and input_text:
     with chat_container:
         st.write(f"{first_name}: {input_text}")
 
-        if st.session_state.is_follow_up:
-            st.session_state.is_follow_up = False
-            st.session_state.current_question_index += 1
-        else:
-            st.session_state.is_follow_up = True
+        if st.session_state.interaction_step % 2 == 0:
             st.session_state.follow_up = chatbot(input_text)
+        st.session_state.interaction_step += 1
 
 form.empty()
 
