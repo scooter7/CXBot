@@ -23,7 +23,7 @@ def construct_index(directory_path):
 def chatbot(input_text, first_name, email):
     index = GPTSimpleVectorIndex.load_from_disk('index.json')
     if not st.session_state.answered_admin_question:
-        prompt = f"Based on the response '{input_text}', what would be a good follow-up question?"
+        prompt = f"The user said: '{input_text}'. What's a relevant follow-up question I should ask?"
     else:
         prompt = f"{first_name} ({email}): {input_text}"
     response = index.query(prompt, response_mode="compact")
