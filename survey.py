@@ -66,7 +66,9 @@ def handle_input():
 
 def save_chat_history():
     chat_history = "\n".join([f"Bot: {questions[i // 2] if i % 2 == 0 else st.session_state.follow_ups[i // 2]}\nYou: {resp}" for i, resp in enumerate(st.session_state.responses)])
-    repo.create_file(f"content/chat_history_{len(st.session_state.responses)}.txt", "Add chat history", chat_history)
+    demographics_data = "\n".join([f"{key}: {value}" for key, value in st.session_state.demographics.items()])
+    complete_history = f"{chat_history}\n\n--- Demographics ---\n{demographics_data}"
+    repo.create_file(f"content/chat_history_{len(st.session_state.responses)}.txt", "Add chat history", complete_history)
 
 if st.session_state.current_question_index < len(questions):
     next_question = questions[st.session_state.current_question_index] if len(st.session_state.responses) % 2 == 0 else st.session_state.follow_ups[-1]
