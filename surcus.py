@@ -3,19 +3,18 @@ from google.oauth2.service_account import Credentials
 import gspread
 import streamlit as st
 from datetime import datetime
-import sys
 import requests
 import json
 
 def save_to_google_sheet():
-    json_url = "https://raw.githubusercontent.com/scooter7/CXBot/main/service_account.json"
+    json_url = "https://raw.githubusercontent.com/scooter7/CXBot/main/service_account.json?token=GHSAT0AAAAAACD5LVXVMAWMD7VDJK4MCVDQZHBQTVQ"
     response = requests.get(json_url)
     creds_json = json.loads(response.text)
-    scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
-    creds = Credentials.from_service_info(info=creds_json, scopes=scope)
+    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
+    creds = Credentials.from_service_account_info(creds_json, scopes=scope)
     client = gspread.authorize(creds)
     sheet = client.open_by_url("https://docs.google.com/spreadsheets/d/1_-R8Vdyiq5nzTWTV21vxEFPalIij__gll36hBXazc7A/edit?usp=sharing").sheet1
-    session_data = []
+    session_data = [datetime.now().strftime('%Y-%m-%d %H:%M:%S')]
     for i, resp in enumerate(st.session_state.responses):
         question_text = questions[i // 2] if i % 2 == 0 else st.session_state.follow_ups[i // 2]
         session_data.append(question_text)
@@ -31,36 +30,14 @@ st.session_state.setdefault('responses', [])
 st.session_state.setdefault('follow_ups', [])
 st.session_state.setdefault('demographics', {})
 
-def get_followup_question(response, question):
-    headers = {'Authorization': f'Bearer {st.secrets["OPENAI_API_KEY"]}', 'Content-Type': 'application/json'}
-    framed_prompt = f"The user was asked: '{question}'. They replied: '{response}'. What would be a good follow-up question?"
-    data = {"model": "gpt-3.5-turbo", "messages": [{"role": "system", "content": "You are a helpful assistant."},{"role": "user", "content": framed_prompt},{"role": "assistant", "content": ""}],"temperature": 0.7}
-    response = requests.post('https://api.openai.com/v1/chat/completions', headers=headers, json=data)
-    follow_up = response.json()['choices'][0]['message']['content'].strip()
-    return follow_up.replace("A good follow-up question could be:", "").strip()
-
-def handle_input():
-    user_input = st.session_state.user_input
-    st.session_state.responses.append(user_input)
-    if len(st.session_state.responses) % 2 == 1:
-        follow_up = get_followup_question(user_input, questions[st.session_state.current_question_index])
-        st.session_state.follow_ups.append(follow_up)
-    else:
-        st.session_state.current_question_index += 1
-    st.session_state.user_input = ""
-
-st.title("Survey QA Bot")
-
-with st.container():
-    for i in range(len(st.session_state.responses)):
-        question_text = questions[i // 2] if i % 2 == 0 else st.session_state.follow_ups[i // 2]
-        st.write("Bot:", question_text)
-        st.write("You:", st.session_state.responses[i])
-
 if st.session_state.current_question_index < len(questions):
-    next_question = questions[st.session_state.current_question_index] if len(st.session_state.responses) % 2 == 0 else st.session_state.follow_ups[-1]
+    next_question = questions[st.session_state.current_question_index]
     st.write("Bot:", next_question)
-    st.text_input("Your Response:", value='', on_change=handle_input, key="user_input")
+    user_input = st.text_input("Your Response:", value='', key="user_input")
+    if user_input:
+        st.session_state.responses.append(user_input)
+        st.session_state.current_question_index += 1
+        st.session_state.user_input = ""
 else:
     st.subheader("We just need a bit more information, especially if you are eligible for an incentive.")
     st.session_state.demographics['Full Name'] = st.text_input("Full Name:")
