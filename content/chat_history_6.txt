@@ -1,0 +1,12 @@
+Bot: Q1: Why did you visit our website today?
+You: To explore your college
+Bot: 'Q2: What specific information are you looking for about our college?'
+You: tuition price and clubs
+Bot: Q2: Where are you in your college decision process?
+You: close to decifing
+Bot: Great! What factors are you considering as you make your decision?
+You: cost and location
+Bot: Q3: What are you thinking of majoring in?
+You: education or computer science
+Bot: "What aspects of education or computer science interest you the most?"
+You: AI
