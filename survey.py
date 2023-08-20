@@ -62,3 +62,21 @@ if st.session_state.current_question_index < len(questions):
     next_question = questions[st.session_state.current_question_index] if len(st.session_state.responses) % 2 == 0 else st.session_state.follow_ups[-1]
     st.write("Bot:", next_question)
     st.text_input("Your Response:", on_change=handle_input, key="user_input")
+else:
+    st.subheader("We just need a bit more information, especially if you are eligible for an incentive.")
+    st.text_input("Full Name:")
+    st.text_input("Email Address:")
+    st.selectbox("Which of these best describes your current gender identity?", [
+        "Cisgender female/woman", "Cisgender male/man", "Non-binary", 
+        "Transgender female/woman", "Transgender male/man", "A gender not listed here", "Prefer to not say"
+    ])
+    st.selectbox("Age", [
+        "17 or under", "18-24 years old", "25-34 years old", "35-44 years old", 
+        "45-54 years old", "55-64 years old", "65-74 years old", "75 years or older"
+    ])
+    st.selectbox("Which best describes you?", [
+        "Asian or Asian American", "Black or African American", "Hispanic, Latino, or Spanish", 
+        "Middle Eastern", "White or Caucasian", "North American Indigenous", 
+        "Hawaiian native or Pacific Islander", "Other", "Prefer to not say"
+    ])
+    st.text_input("What is your 5-digit zip code (if you live in the United States)?")
