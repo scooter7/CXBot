@@ -32,16 +32,18 @@ def save_to_google_sheet():
         session_data.append(value)
     sheet.append_row(session_data)
 
-st.session_state.setdefault("questions", ['Q1: Why did you visit our website today?', 'Q2: Where are you in your college decision process?', 'Q3: What are you thinking of majoring in?'])
+original_questions = ['Q1: Why did you visit our website today?', 'Q2: Where are you in your college decision process?', 'Q3: What are you thinking of majoring in?']
+
+st.session_state.setdefault("questions", original_questions)
 st.session_state.setdefault("follow_ups", [])
 st.session_state.setdefault("responses", [])
 st.session_state.setdefault("current_question_index", 0)
 st.session_state.setdefault("demographics", {})
 
-while st.session_state.current_question_index < len(st.session_state.questions):
+while st.session_state.current_question_index < len(original_questions):
     next_question = st.session_state.questions[st.session_state.current_question_index]
     st.write("Bot:", next_question)
-    unique_key = f"user_input_{st.session_state.current_question_index}_{next_question}_{random.randint(0, 999999)}"
+    unique_key = f"user_input_{st.session_state.current_question_index}_{random.randint(0, 999999)}"
     user_input = st.text_input("Your Response:", key=unique_key)
     if st.button("Next", key=f"next_button_{unique_key}"):
         st.session_state.responses.append(user_input)
