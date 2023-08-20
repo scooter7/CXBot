@@ -10,25 +10,21 @@ openai_api_key = st.secrets["OPENAI_API_KEY"]
 
 questions = [
     'Q1: Why did you visit our website today?',
-    '',
     'Q2: Where are you in your college decision process?',
-    '',
-    'Q3: What are you thinking of majoring in?',
-    ''
+    'Q3: What are you thinking of majoring in?'
 ]
 
-st.session_state.setdefault('questions', questions)
+st.session_state.setdefault('questions', [])
 st.session_state.setdefault('responses', [])
 st.session_state.setdefault('follow_ups', [])
 
 st.title("Survey QA Bot")
-
-st.button("Clear message", on_click=lambda: [st.session_state.responses.clear(), st.session_state.follow_ups.clear()])
+st.button("Clear message", on_click=lambda: [st.session_state.questions.clear(), st.session_state.responses.clear(), st.session_state.follow_ups.clear()])
 
 with st.container():
-    for response, question in zip(st.session_state.responses, st.session_state.questions[1:]):
-        st.write("You:", response)
+    for question, response in zip(st.session_state.questions, st.session_state.responses):
         st.write("Bot:", question)
+        st.write("You:", response)
     for follow_up in st.session_state.follow_ups:
         st.write("Bot:", follow_up)
 
@@ -56,11 +52,13 @@ def get_followup_question(response, question):
 def handle_input():
     user_input = st.session_state.user_input
     st.session_state.responses.append(user_input)
-    follow_up = get_followup_question(user_input, st.session_state.questions[len(st.session_state.responses) - 1])
+    last_question = st.session_state.questions[-1] if st.session_state.questions else questions[len(st.session_state.responses) - 1]
+    follow_up = get_followup_question(user_input, last_question)
     st.session_state.follow_ups.append(follow_up)
+    st.session_state.questions.append(follow_up)
 
-if len(st.session_state.questions) > len(st.session_state.responses):
-    next_question = st.session_state.questions[len(st.session_state.responses)]
-    if next_question:
-        st.write("Bot:", next_question)
-        st.text_input("Your Response:", on_change=handle_input, key="user_input")
+if not st.session_state.questions:
+    st.session_state.questions.append(questions[0])
+    
+st.write("Bot:", st.session_state.questions[-1])
+st.text_input("Your Response:", on_change=handle_input, key="user_input")
