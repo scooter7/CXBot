@@ -1,0 +1,20 @@
+Bot: Q1: Why did you visit our website today?
+You: I wanted to learn about the mission of your college
+Bot: 'Q2: Did you find the information about the mission of our college easily accessible on our website?'
+You: yes
+Bot: Q2: Where are you in your college decision process?
+You: I just started applying to a lot of schools
+Bot: Q3: That's great! How many schools have you applied to so far?
+You: 7
+Bot: Q3: What are you thinking of majoring in?
+You: something that will help the planet
+Bot: That's great! There are various fields that focus on helping the planet. Could you share any specific areas or subjects that interest you?
+You: green tech
+
+--- Demographics ---
+Full Name: Jay Vee
+Email Address: j@test.net
+Gender Identity: Cisgender male/man
+Age: 45-54 years old
+Ethnicity: White or Caucasian
+Zip Code: 52403
