@@ -37,7 +37,6 @@ if st.session_state.current_question_index < len(questions):
     if user_input:
         st.session_state.responses.append(user_input)
         st.session_state.current_question_index += 1
-        st.session_state.user_input = ""
 else:
     st.subheader("We just need a bit more information, especially if you are eligible for an incentive.")
     st.session_state.demographics['Full Name'] = st.text_input("Full Name:")
