@@ -1,8 +1,6 @@
 import streamlit as st
-import os
 import sys
 from github import Github
-import openai
 import requests
 
 if "OPENAI_API_KEY" not in st.secrets:
@@ -48,19 +46,21 @@ def save_chat_history_to_github():
         chat_history += f"Bot: {question}\n"
     for follow_up in st.session_state.follow_ups:
         chat_history += f"Bot: {follow_up}\n"
-    
     repo.create_file(f"content/chat_history_{len(st.session_state.responses)}.txt", "Add chat history", chat_history)
 
-def get_followup_question(response):
+def get_followup_question(response, question):
     headers = {
         'Authorization': f'Bearer {openai_api_key}',
         'Content-Type': 'application/json',
     }
     
+    framed_prompt = f"The user was asked: '{question}'. They replied: '{response}'. What would be a good follow-up question?"
+    
     data = {
         "model": "gpt-3.5-turbo",
         "messages": [
-            {"role": "user", "content": response},
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": framed_prompt},
             {"role": "assistant", "content": ""}
         ],
         "temperature": 0.7
@@ -72,7 +72,7 @@ def get_followup_question(response):
 def handle_input():
     user_input = st.session_state.user_input
     st.session_state.responses.append(user_input)
-    follow_up = get_followup_question(user_input)
+    follow_up = get_followup_question(user_input, st.session_state.questions[len(st.session_state.responses) - 1])
     st.session_state.follow_ups.append(follow_up)
     save_chat_history_to_github()
 
