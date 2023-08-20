@@ -4,6 +4,7 @@ import streamlit as st
 from datetime import datetime
 import requests
 import json
+import random
 
 def get_followup_question(response, question):
     headers = {'Authorization': f'Bearer {st.secrets["OPENAI_API_KEY"]}', 'Content-Type': 'application/json'}
@@ -40,8 +41,9 @@ st.session_state.setdefault("demographics", {})
 while st.session_state.current_question_index < len(st.session_state.questions):
     next_question = st.session_state.questions[st.session_state.current_question_index]
     st.write("Bot:", next_question)
-    user_input = st.text_input("Your Response:", key=f"user_input_{st.session_state.current_question_index}_{next_question}")
-    if st.button("Next", key=f"next_button_{st.session_state.current_question_index}_{next_question}"):
+    unique_key = f"user_input_{st.session_state.current_question_index}_{next_question}_{random.randint(0, 999999)}"
+    user_input = st.text_input("Your Response:", key=unique_key)
+    if st.button("Next", key=f"next_button_{unique_key}"):
         st.session_state.responses.append(user_input)
         follow_up = get_followup_question(user_input, next_question)
         st.session_state.follow_ups.append(follow_up)
@@ -59,4 +61,3 @@ st.session_state.demographics['Zip Code'] = st.text_input("What is your 5-digit 
 if st.button("Finish"):
     save_to_google_sheet()
     st.write("Thank You!")
-    
