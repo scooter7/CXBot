@@ -1,5 +1,6 @@
 from github import Github
 import streamlit as st
+from datetime import datetime
 import sys
 import requests
 
@@ -7,11 +8,7 @@ openai_api_key = st.secrets["OPENAI_API_KEY"]
 g = Github(st.secrets["GITHUB_TOKEN"])
 repo = g.get_repo("scooter7/CXBot")
 
-questions = [
-    'Q1: Why did you visit our website today?',
-    'Q2: Where are you in your college decision process?',
-    'Q3: What are you thinking of majoring in?'
-]
+questions = ['Q1: Why did you visit our website today?', 'Q2: Where are you in your college decision process?', 'Q3: What are you thinking of majoring in?']
 
 st.session_state.setdefault('current_question_index', 0)
 st.session_state.setdefault('responses', [])
@@ -48,11 +45,9 @@ def save_chat_history():
     chat_history = "\n".join([f"Bot: {questions[i // 2] if i % 2 == 0 else st.session_state.follow_ups[i // 2]}\nYou: {resp}" for i, resp in enumerate(st.session_state.responses)])
     demographics_data = "\n".join([f"{key}: {value}" for key, value in st.session_state.demographics.items()])
     complete_history = f"{chat_history}\n\n--- Demographics ---\n{demographics_data}"
-    try:
-        repo.get_dir_contents("content")
-    except:
-        repo.create_git_ref(ref=f"refs/heads/content", sha=repo.get_git_ref("heads/master").object.sha)
-    repo.create_file(f"content/chat_history_{len(st.session_state.responses)}.txt", "Add chat history", complete_history)
+    current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_path = f"content/chat_history_{current_time}.txt"
+    repo.create_file(file_path, "Add chat history", complete_history)
 
 if st.session_state.current_question_index < len(questions):
     next_question = questions[st.session_state.current_question_index] if len(st.session_state.responses) % 2 == 0 else st.session_state.follow_ups[-1]
