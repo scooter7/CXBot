@@ -3,6 +3,7 @@ import os
 import sys
 from github import Github
 import openai
+import requests
 
 if "OPENAI_API_KEY" not in st.secrets:
     st.error("Please set the OPENAI_API_KEY secret on the Streamlit dashboard.")
@@ -12,7 +13,7 @@ if "GITHUB_TOKEN" not in st.secrets:
     st.error("Please set the GITHUB_TOKEN secret on the Streamlit dashboard.")
     sys.exit(1)
 
-openai.api_key = st.secrets["OPENAI_API_KEY"]
+openai_api_key = st.secrets["OPENAI_API_KEY"]
 g = Github(st.secrets["GITHUB_TOKEN"])
 repo = g.get_repo("scooter7/CXBot")
 
@@ -51,12 +52,22 @@ def save_chat_history_to_github():
     repo.create_file(f"content/chat_history_{len(st.session_state.responses)}.txt", "Add chat history", chat_history)
 
 def get_followup_question(response):
-    completion = openai.Completion.create(
-        engine="gpt-3.5-turbo",
-        prompt=response,
-        temperature=0.7
-    )
-    return completion.choices[0].text.strip()
+    headers = {
+        'Authorization': f'Bearer {openai_api_key}',
+        'Content-Type': 'application/json',
+    }
+    
+    data = {
+        "model": "gpt-3.5-turbo",
+        "messages": [
+            {"role": "user", "content": response},
+            {"role": "assistant", "content": ""}
+        ],
+        "temperature": 0.7
+    }
+    
+    response = requests.post('https://api.openai.com/v1/chat/completions', headers=headers, json=data)
+    return response.json()['choices'][0]['message']['content'].strip()
 
 def handle_input():
     user_input = st.session_state.user_input
