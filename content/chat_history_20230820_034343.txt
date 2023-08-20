@@ -1,0 +1,20 @@
+Bot: Q1: Why did you visit our website today?
+You: To see if it's too late to apply
+Bot: 'Q2: What specific program or opportunity are you interested in applying for?'
+You: BA degree
+Bot: Q2: Where are you in your college decision process?
+You: appplying
+Bot: "Which colleges or universities are you considering applying to?" This will help gather more information about their college choices and potentially provide an opportunity for further assistance or guidance.
+You: Ivy League
+Bot: Q3: What are you thinking of majoring in?
+You: GreenTech
+Bot: That's a great choice! GreenTech is an exciting and growing field. What specifically interests you about GreenTech?
+You: solar
+
+--- Demographics ---
+Full Name: J V
+Email Address: j@a.org
+Gender Identity: Cisgender female/woman
+Age: 17 or under
+Ethnicity: Asian or Asian American
+Zip Code: 99999
