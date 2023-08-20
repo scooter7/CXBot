@@ -1,4 +1,3 @@
-from github import Github
 from google.oauth2.service_account import Credentials
 import gspread
 import streamlit as st
@@ -25,15 +24,19 @@ def save_to_google_sheet():
     sheet.append_row(session_data)
 
 questions = ['Q1: Why did you visit our website today?', 'Q2: Where are you in your college decision process?', 'Q3: What are you thinking of majoring in?']
-st.session_state.setdefault('current_question_index', 0)
-st.session_state.setdefault('responses', [])
-st.session_state.setdefault('demographics', {})
+
+if 'current_question_index' not in st.session_state:
+    st.session_state.current_question_index = 0
+if 'responses' not in st.session_state:
+    st.session_state.responses = []
+if 'demographics' not in st.session_state:
+    st.session_state.demographics = {}
 
 if st.session_state.current_question_index < len(questions):
     next_question = questions[st.session_state.current_question_index]
     st.write("Bot:", next_question)
-    user_input = st.text_input("Your Response:", key="user_input")
-    if st.button("Next"):
+    user_input = st.text_input("Your Response:", key=f"user_input_{st.session_state.current_question_index}")
+    if st.button("Next", key=f"next_button_{st.session_state.current_question_index}"):
         st.session_state.responses.append(user_input)
         st.session_state.current_question_index += 1
 else:
