@@ -40,8 +40,8 @@ st.session_state.setdefault("demographics", {})
 while st.session_state.current_question_index < len(st.session_state.questions):
     next_question = st.session_state.questions[st.session_state.current_question_index]
     st.write("Bot:", next_question)
-    user_input = st.text_input("Your Response:", key=f"user_input_{st.session_state.current_question_index}")
-    if st.button("Next", key=f"next_button_{st.session_state.current_question_index}"):
+    user_input = st.text_input("Your Response:", key=f"user_input_{st.session_state.current_question_index}_{next_question}")
+    if st.button("Next", key=f"next_button_{st.session_state.current_question_index}_{next_question}"):
         st.session_state.responses.append(user_input)
         follow_up = get_followup_question(user_input, next_question)
         st.session_state.follow_ups.append(follow_up)
