@@ -16,7 +16,7 @@ def save_to_google_sheet():
     sheet = client.open_by_url("https://docs.google.com/spreadsheets/d/1_-R8Vdyiq5nzTWTV21vxEFPalIij__gll36hBXazc7A/edit?usp=sharing").sheet1
     session_data = [datetime.now().strftime('%Y-%m-%d %H:%M:%S')]
     for i, resp in enumerate(st.session_state.responses):
-        question_text = questions[i // 2] if i % 2 == 0 else st.session_state.follow_ups[i // 2]
+        question_text = questions[i]
         session_data.append(question_text)
         session_data.append(resp)
     for key, value in st.session_state.demographics.items():
@@ -27,14 +27,13 @@ def save_to_google_sheet():
 questions = ['Q1: Why did you visit our website today?', 'Q2: Where are you in your college decision process?', 'Q3: What are you thinking of majoring in?']
 st.session_state.setdefault('current_question_index', 0)
 st.session_state.setdefault('responses', [])
-st.session_state.setdefault('follow_ups', [])
 st.session_state.setdefault('demographics', {})
 
 if st.session_state.current_question_index < len(questions):
     next_question = questions[st.session_state.current_question_index]
     st.write("Bot:", next_question)
-    user_input = st.text_input("Your Response:", value='', key="user_input")
-    if user_input:
+    user_input = st.text_input("Your Response:", key="user_input")
+    if st.button("Next"):
         st.session_state.responses.append(user_input)
         st.session_state.current_question_index += 1
 else:
