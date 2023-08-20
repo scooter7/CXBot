@@ -1,0 +1,20 @@
+Bot: Q1: Why did you visit our website today?
+You: To learn about your college
+Bot: 'Q2: What specific information are you looking to learn about our college?'
+You: if you have baseball
+Bot: Q2: Where are you in your college decision process?
+You: applying
+Bot: 'Q3: Which colleges or universities are you considering applying to?'
+You: yours and Harvard
+Bot: Q3: What are you thinking of majoring in?
+You: education or computer science
+Bot: That's great! Both education and computer science are interesting fields. What specific aspect of education or computer science are you most passionate about?
+You: AI
+
+--- Demographics ---
+Full Name: werr werwer
+Email Address: d@321.org
+Gender Identity: Cisgender female/woman
+Age: 17 or under
+Ethnicity: Asian or Asian American
+Zip Code: 55555
