@@ -54,6 +54,7 @@ gpt-index==0.4.24
 gradio==3.24.1
 gradio_client==0.0.8
 greenlet==2.0.2
+gspread
 gTTS==2.3.1
 h11==0.14.0
 httpcore==0.16.3
