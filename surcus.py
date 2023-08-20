@@ -14,39 +14,37 @@ def save_to_google_sheet():
     client = gspread.authorize(creds)
     sheet = client.open_by_url("https://docs.google.com/spreadsheets/d/1_-R8Vdyiq5nzTWTV21vxEFPalIij__gll36hBXazc7A/edit?usp=sharing").sheet1
     session_data = [datetime.now().strftime('%Y-%m-%d %H:%M:%S')]
-    for i, resp in enumerate(st.session_state.responses):
+    for i, resp in enumerate(responses):
         question_text = questions[i]
         session_data.append(question_text)
         session_data.append(resp)
-    for key, value in st.session_state.demographics.items():
+    for key, value in demographics.items():
         session_data.append(key)
         session_data.append(value)
     sheet.append_row(session_data)
 
 questions = ['Q1: Why did you visit our website today?', 'Q2: Where are you in your college decision process?', 'Q3: What are you thinking of majoring in?']
+responses = []
+demographics = {}
 
-if 'current_question_index' not in st.session_state:
-    st.session_state.current_question_index = 0
-if 'responses' not in st.session_state:
-    st.session_state.responses = []
-if 'demographics' not in st.session_state:
-    st.session_state.demographics = {}
+current_question_index = 0
 
-if st.session_state.current_question_index < len(questions):
-    next_question = questions[st.session_state.current_question_index]
+while current_question_index < len(questions):
+    next_question = questions[current_question_index]
     st.write("Bot:", next_question)
-    user_input = st.text_input("Your Response:", key=f"user_input_{st.session_state.current_question_index}")
-    if st.button("Next", key=f"next_button_{st.session_state.current_question_index}"):
-        st.session_state.responses.append(user_input)
-        st.session_state.current_question_index += 1
-else:
-    st.subheader("We just need a bit more information, especially if you are eligible for an incentive.")
-    st.session_state.demographics['Full Name'] = st.text_input("Full Name:")
-    st.session_state.demographics['Email Address'] = st.text_input("Email Address:")
-    st.session_state.demographics['Gender Identity'] = st.selectbox("Which of these best describes your current gender identity?", ["Cisgender female/woman", "Cisgender male/man", "Non-binary", "Transgender female/woman", "Transgender male/man", "A gender not listed here", "Prefer to not say"])
-    st.session_state.demographics['Age'] = st.selectbox("Age", ["17 or under", "18-24 years old", "25-34 years old", "35-44 years old", "45-54 years old", "55-64 years old", "65-74 years old", "75 years or older"])
-    st.session_state.demographics['Ethnicity'] = st.selectbox("Which best describes you?", ["Asian or Asian American", "Black or African American", "Hispanic, Latino, or Spanish", "Middle Eastern", "White or Caucasian", "North American Indigenous", "Hawaiian native or Pacific Islander", "Other", "Prefer to not say"])
-    st.session_state.demographics['Zip Code'] = st.text_input("What is your 5-digit zip code (if you live in the United States)?")
-    if st.button("Finish"):
-        save_to_google_sheet()
-        st.write("Thank You!")
+    user_input = st.text_input("Your Response:", key=f"user_input_{current_question_index}")
+    if st.button("Next", key=f"next_button_{current_question_index}"):
+        responses.append(user_input)
+        current_question_index += 1
+
+st.subheader("We just need a bit more information, especially if you are eligible for an incentive.")
+demographics['Full Name'] = st.text_input("Full Name:")
+demographics['Email Address'] = st.text_input("Email Address:")
+demographics['Gender Identity'] = st.selectbox("Which of these best describes your current gender identity?", ["Cisgender female/woman", "Cisgender male/man", "Non-binary", "Transgender female/woman", "Transgender male/man", "A gender not listed here", "Prefer to not say"])
+demographics['Age'] = st.selectbox("Age", ["17 or under", "18-24 years old", "25-34 years old", "35-44 years old", "45-54 years old", "55-64 years old", "65-74 years old", "75 years or older"])
+demographics['Ethnicity'] = st.selectbox("Which best describes you?", ["Asian or Asian American", "Black or African American", "Hispanic, Latino, or Spanish", "Middle Eastern", "White or Caucasian", "North American Indigenous", "Hawaiian native or Pacific Islander", "Other", "Prefer to not say"])
+demographics['Zip Code'] = st.text_input("What is your 5-digit zip code (if you live in the United States)?")
+
+if st.button("Finish"):
+    save_to_google_sheet()
+    st.write("Thank You!")
