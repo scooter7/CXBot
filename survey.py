@@ -47,7 +47,8 @@ def get_followup_question(response, question):
     }
     
     response = requests.post('https://api.openai.com/v1/chat/completions', headers=headers, json=data)
-    return response.json()['choices'][0]['message']['content'].strip()
+    follow_up = response.json()['choices'][0]['message']['content'].strip()
+    return follow_up.replace("A good follow-up question could be:", "").strip()
 
 def handle_input():
     user_input = st.session_state.user_input
