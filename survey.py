@@ -19,14 +19,13 @@ st.session_state.setdefault('responses', [])
 st.session_state.setdefault('follow_ups', [])
 
 st.title("Survey QA Bot")
-st.button("Clear message", on_click=lambda: [st.session_state.current_question_index, st.session_state.responses.clear(), st.session_state.follow_ups.clear()])
+st.button("Clear message", on_click=lambda: [setattr(st.session_state, 'current_question_index', 0), st.session_state.responses.clear(), st.session_state.follow_ups.clear()])
 
 with st.container():
-    for question, response in zip(st.session_state.questions, st.session_state.responses):
-        st.write("Bot:", question)
-        st.write("You:", response)
-    for follow_up in st.session_state.follow_ups:
-        st.write("Bot:", follow_up)
+    for i in range(len(st.session_state.responses)):
+        question_text = questions[i // 2] if i % 2 == 0 else st.session_state.follow_ups[i // 2]
+        st.write("Bot:", question_text)
+        st.write("You:", st.session_state.responses[i])
 
 def get_followup_question(response, question):
     headers = {
@@ -60,6 +59,6 @@ def handle_input():
         st.session_state.current_question_index += 1
 
 if st.session_state.current_question_index < len(questions):
-    next_question = questions[st.session_state.current_question_index]
-    st.write("Bot:", next_question if len(st.session_state.responses) % 2 == 0 else st.session_state.follow_ups[-1])
+    next_question = questions[st.session_state.current_question_index] if len(st.session_state.responses) % 2 == 0 else st.session_state.follow_ups[-1]
+    st.write("Bot:", next_question)
     st.text_input("Your Response:", on_change=handle_input, key="user_input")
