@@ -8,11 +8,11 @@ import requests
 import json
 
 def save_to_google_sheet():
-    scope = ["https://spreadsheets.google.com/feeds", 'https://www.googleapis.com/auth/spreadsheets', "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
     json_url = "https://raw.githubusercontent.com/scooter7/CXBot/main/service_account.json"
     response = requests.get(json_url)
     creds_json = json.loads(response.text)
-    creds = Credentials.from_service_account_info(creds_json, scopes=scope)
+    scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
+    creds = Credentials.from_service_info(info=creds_json, scopes=scope)
     client = gspread.authorize(creds)
     sheet = client.open_by_url("https://docs.google.com/spreadsheets/d/1_-R8Vdyiq5nzTWTV21vxEFPalIij__gll36hBXazc7A/edit?usp=sharing").sheet1
     session_data = []
