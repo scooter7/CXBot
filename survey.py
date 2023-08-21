@@ -28,8 +28,9 @@ class SurveyApp:
         user_input = self.user_input_temp
         self.responses.append(user_input)
         if len(self.responses) % 2 == 1:
-            follow_up = self.get_followup_question(user_input, self.questions[self.current_question_index])
-            self.follow_ups.append(follow_up)
+            if len(self.follow_ups) <= len(self.responses) // 2:
+                follow_up = self.get_followup_question(user_input, self.questions[self.current_question_index])
+                self.follow_ups.append(follow_up)
         else:
             self.current_question_index += 1
         self.user_input_temp = ""
