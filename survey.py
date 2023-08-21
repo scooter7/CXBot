@@ -16,12 +16,6 @@ st.session_state.setdefault('demographics', {})
 
 st.title("Survey QA Bot")
 
-with st.container():
-    for i in range(len(st.session_state.responses)):
-        question_text = questions[i // 2] if i % 2 == 0 else st.session_state.follow_ups[i // 2]
-        st.write("Bot:", question_text)
-        st.write("You:", st.session_state.responses[i])
-
 def get_followup_question(response, question):
     headers = {'Authorization': f'Bearer {openai_api_key}', 'Content-Type': 'application/json'}
     framed_prompt = f"The user was asked: '{question}'. They replied: '{response}'. What would be a good follow-up question?"
@@ -30,13 +24,17 @@ def get_followup_question(response, question):
     follow_up = response.json()['choices'][0]['message']['content'].strip()
     return follow_up.replace("A good follow-up question could be:", "").strip()
 
-def handle_input(user_input):
-    st.session_state.responses.append(user_input)
-    if len(st.session_state.responses) % 2 == 1:
-        follow_up = get_followup_question(user_input, questions[st.session_state.current_question_index])
-        st.session_state.follow_ups.append(follow_up)
-    else:
-        st.session_state.current_question_index += 1
+if st.session_state.current_question_index < len(questions):
+    next_question = questions[st.session_state.current_question_index] if len(st.session_state.responses) % 2 == 0 else st.session_state.follow_ups[-1]
+    st.write("Bot:", next_question)
+    user_input = st.text_input("Your Response:")
+    if st.button("Submit"):
+        st.session_state.responses.append(user_input)
+        if len(st.session_state.responses) % 2 == 1:
+            follow_up = get_followup_question(user_input, questions[st.session_state.current_question_index])
+            st.session_state.follow_ups.append(follow_up)
+        else:
+            st.session_state.current_question_index += 1
 
 if st.session_state.current_question_index < len(questions):
     next_question = questions[st.session_state.current_question_index] if len(st.session_state.responses) % 2 == 0 else st.session_state.follow_ups[-1]
