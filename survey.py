@@ -50,11 +50,14 @@ def save_chat_history():
     repo.create_file(file_path, "Add chat history", complete_history)
 
 if st.session_state.current_question_index < len(questions):
+if st.session_state.current_question_index < len(questions):
     next_question = questions[st.session_state.current_question_index] if len(st.session_state.responses) % 2 == 0 else st.session_state.follow_ups[-1]
     st.write("Bot:", next_question)
     
     user_input = st.text_area("Your Response:", value=st.session_state.get('user_input', ''), key="user_input")
-    if st.button("Submit"):
+    
+    submit_button = st.button("Submit")
+    if submit_button:
         st.session_state.user_input = user_input
         handle_input()
 else:
