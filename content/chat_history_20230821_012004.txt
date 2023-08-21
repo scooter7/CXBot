@@ -1,0 +1,20 @@
+Bot: Q1: Why did you visit our website today?
+You: To learn about vising or applying
+Bot: Q2: Are you interested in visiting our website to learn about a specific program or service?
+You: Baeball
+Bot: Q2: Where are you in your college decision process?
+You: applying
+Bot: 'Q3: Which colleges or universities are you considering and why?'
+You: west coast R1 schools with good baseball
+Bot: Q3: What are you thinking of majoring in?
+You: Education or computer science
+Bot: What aspects of education or computer science interest you the most?
+You: AI
+
+--- Demographics ---
+Full Name: J V
+Email Address: k@a.org
+Gender Identity: Cisgender male/man
+Age: 45-54 years old
+Ethnicity: White or Caucasian
+Zip Code: 52403
