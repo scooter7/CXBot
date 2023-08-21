@@ -48,14 +48,20 @@ if st.session_state.current_question_index < len(questions):
         st.session_state.current_question_index += 1
 
 with st.container():
-    for i, response in enumerate(st.session_state.responses):
-        bot_message = questions[i] if i % 2 == 0 else st.session_state.follow_ups[i // 2]
+    for i in range(len(st.session_state.responses)):
+        if i % 2 == 0:
+            bot_message = questions[i]
+        else:
+            if i // 2 < len(st.session_state.follow_ups):
+                bot_message = st.session_state.follow_ups[i // 2]
+            else:
+                bot_message = ""
         st.write("Bot:", bot_message)
-        st.write("You:", response)
+        st.write("You:", st.session_state.responses[i])
 
 if st.session_state.current_question_index >= len(questions):
     st.subheader("We just need a bit more information, especially if you are eligible for an incentive.")
-    demographics = {
+    st.session_state.demographics = {
         'Full Name': st.text_input("Full Name:"),
         'Email Address': st.text_input("Email Address:"),
         'Gender Identity': st.selectbox("Which of these best describes your current gender identity?", [
@@ -74,5 +80,4 @@ if st.session_state.current_question_index >= len(questions):
         'Zip Code': st.text_input("What is your 5-digit zip code (if you live in the United States)?")
     }
     if st.button("Finish"):
-        st.session_state.demographics = demographics
         st.write("Thank You!")
