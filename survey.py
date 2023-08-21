@@ -1,7 +1,7 @@
+import sys
 from github import Github
 import streamlit as st
 from datetime import datetime
-import sys
 import requests
 
 openai_api_key = st.secrets["OPENAI_API_KEY"]
@@ -31,14 +31,16 @@ def get_followup_question(response, question):
     follow_up = response.json()['choices'][0]['message']['content'].strip()
     return follow_up.replace("A good follow-up question could be:", "").strip()
 
-def handle_input(user_input):
-    st.session_state.responses.append(user_input)
-    if len(st.session_state.responses) % 2 == 1:
-        follow_up = get_followup_question(user_input, questions[st.session_state.current_question_index])
-        st.session_state.follow_ups.append(follow_up)
-    else:
-        st.session_state.current_question_index += 1
-    st.session_state.user_input = ""
+def handle_input():
+    user_input = st.session_state.user_input
+    if user_input:
+        st.session_state.responses.append(user_input)
+        if len(st.session_state.responses) % 2 == 1:
+            follow_up = get_followup_question(user_input, questions[st.session_state.current_question_index])
+            st.session_state.follow_ups.append(follow_up)
+        else:
+            st.session_state.current_question_index += 1
+        st.session_state.user_input = ""
 
 def save_chat_history():
     chat_history = "\n".join([f"Bot: {questions[i // 2] if i % 2 == 0 else st.session_state.follow_ups[i // 2]}\nYou: {resp}" for i, resp in enumerate(st.session_state.responses)])
@@ -51,10 +53,10 @@ def save_chat_history():
 if st.session_state.current_question_index < len(questions):
     next_question = questions[st.session_state.current_question_index] if len(st.session_state.responses) % 2 == 0 else st.session_state.follow_ups[-1]
     st.write("Bot:", next_question)
-    user_input = st.text_input("Your Response:", key="user_input")
+    user_input = st.text_input("Your Response:")
     if st.button("Submit"):
-        handle_input(user_input)
-        st.session_state.user_input = ""
+        st.session_state.user_input = user_input
+        handle_input()
 
 if st.session_state.current_question_index >= len(questions):
     st.subheader("We just need a bit more information, especially if you are eligible for an incentive.")
@@ -67,3 +69,6 @@ if st.session_state.current_question_index >= len(questions):
     if st.button("Finish"):
         save_chat_history()
         st.write("Thank You!")
+
+
+
