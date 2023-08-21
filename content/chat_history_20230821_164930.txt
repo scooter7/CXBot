@@ -1,0 +1,20 @@
+Bot: Q1: Why did you visit our website today?
+You: checking on whether you have the program that I'm interested in majoring in
+Bot: Q2: Which program are you specifically interested in majoring in?
+You: Education
+Bot: Q2: Where are you in your college decision process?
+You: making a list
+Bot: "Q3: What factors are you considering when making your college list?"
+You: cost and quality
+Bot: Q3: What are you thinking of majoring in?
+You: education or engineering
+Bot: "What aspects of education or engineering are you most interested in? Are there any specific fields or areas within these majors that you are passionate about?"
+You: artificial intelligence
+
+--- Demographics ---
+Full Name: Ralph Tester
+Email Address: r@alph.com
+Gender Identity: A gender not listed here
+Age: 35-44 years old
+Ethnicity: Asian or Asian American
+Zip Code: 55555
