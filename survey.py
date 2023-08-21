@@ -54,12 +54,6 @@ if st.session_state.current_question_index < len(questions):
     if st.button("Submit"):
         handle_input(user_input)
 
-with st.container():
-    if len(st.session_state.responses) % 2 == 1:
-        st.text_input("Follow-up Question:", value="", key="follow_up_input")
-    else:
-        st.text_input("Your Response:", value="", key="user_input")
-
 if st.session_state.current_question_index >= len(questions):
     st.subheader("We just need a bit more information, especially if you are eligible for an incentive.")
     st.session_state.demographics['Full Name'] = st.text_input("Full Name:")
