@@ -38,7 +38,6 @@ def handle_input(user_input):
         st.session_state.follow_ups.append(follow_up)
     else:
         st.session_state.current_question_index += 1
-    st.session_state[f"user_input_{st.session_state.current_question_index}"] = ""
 
 def save_chat_history():
     chat_history = "\n".join([f"Bot: {questions[i // 2] if i % 2 == 0 else st.session_state.follow_ups[i // 2]}\nYou: {resp}" for i, resp in enumerate(st.session_state.responses)])
@@ -54,6 +53,7 @@ if st.session_state.current_question_index < len(questions):
     user_input = st.text_input("Your Response:", key=f"user_input_{st.session_state.current_question_index}")
     if st.button("Submit"):
         handle_input(user_input)
+        st.session_state[f"user_input_{st.session_state.current_question_index}"] = ""
 
 if st.session_state.current_question_index >= len(questions):
     st.subheader("We just need a bit more information, especially if you are eligible for an incentive.")
