@@ -54,8 +54,7 @@ if st.session_state.current_question_index < len(questions):
     st.write("Bot:", next_question)
     user_input = st.text_input("Your Response:", value=st.session_state.get('user_input', ''), key="user_input")
     if st.button("Submit"):
-        st.session_state.user_input = user_input
-        handle_input()
+        handle_input(user_input)
 else:
     st.subheader("We just need a bit more information, especially if you are eligible for an incentive.")
     st.session_state.demographics['Full Name'] = st.text_input("Full Name:")
