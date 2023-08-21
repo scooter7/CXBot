@@ -34,7 +34,7 @@ if st.session_state.current_question_index < len(questions):
         if len(st.session_state.responses) % 2 == 1 and st.session_state.current_question_index < len(questions) - 1:
             follow_up = get_followup_question(user_input, questions[st.session_state.current_question_index + 1])
             st.session_state.follow_ups.append(follow_up)
-        st.session_state.current_question_index += 1
+            st.session_state.current_question_index += 1
 
 with st.container():
     for i in range(len(st.session_state.responses)):
