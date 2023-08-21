@@ -1,0 +1,20 @@
+Bot: Q1: Why did you visit our website today?
+You: to schedule a visit
+Bot: 'Q2: Have you been able to successfully schedule a visit on our website?'
+You: Yes
+Bot: Q2: Where are you in your college decision process?
+You: researching and applying
+Bot: Q3: Which colleges are you considering applying to?
+You: Tufts, Harvard
+Bot: Q3: What are you thinking of majoring in?
+You: Physics and rocket science
+Bot: That sounds like an exciting and challenging field! Have you always been interested in physics and rocket science, or was there a specific event or experience that sparked your interest?
+You: moon landing
+
+--- Demographics ---
+Full Name: John Jones
+Email Address: k@a.org
+Gender Identity: Transgender female/woman
+Age: 65-74 years old
+Ethnicity: Hawaiian native or Pacific Islander
+Zip Code: 99999
