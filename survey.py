@@ -25,16 +25,15 @@ def get_followup_question(response, question):
     return follow_up.replace("A good follow-up question could be:", "").strip()
 
 if st.session_state.current_question_index < len(questions):
-    next_question = questions[st.session_state.current_question_index] if len(st.session_state.responses) % 2 == 0 else st.session_state.follow_ups[-1]
+    next_question = questions[st.session_state.current_question_index]
     st.write("Bot:", next_question)
-    user_input = st.text_input("Your Response:", key=f"user_input_{st.session_state.current_question_index}")
-    submit_key = f"submit_button_{st.session_state.current_question_index}"
-    if st.button("Submit", key=submit_key):
+    user_input = st.text_input("Your Response:")
+    if st.button("Submit"):
         st.session_state.responses.append(user_input)
         if len(st.session_state.responses) % 2 == 1 and st.session_state.current_question_index < len(questions) - 1:
             follow_up = get_followup_question(user_input, questions[st.session_state.current_question_index + 1])
             st.session_state.follow_ups.append(follow_up)
-            st.session_state.current_question_index += 1
+        st.session_state.current_question_index += 1
 
 with st.container():
     for i in range(len(st.session_state.responses)):
