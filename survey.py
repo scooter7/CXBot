@@ -28,7 +28,8 @@ if st.session_state.current_question_index < len(questions):
     next_question = questions[st.session_state.current_question_index] if len(st.session_state.responses) % 2 == 0 else st.session_state.follow_ups[-1]
     st.write("Bot:", next_question)
     user_input = st.text_input("Your Response:")
-    if st.button("Submit"):
+    submit_key = f"submit_button_{st.session_state.current_question_index}"
+    if st.button("Submit", key=submit_key):
         st.session_state.responses.append(user_input)
         if len(st.session_state.responses) % 2 == 1:
             follow_up = get_followup_question(user_input, questions[st.session_state.current_question_index])
