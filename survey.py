@@ -27,7 +27,7 @@ def get_followup_question(response, question):
 if st.session_state.current_question_index < len(questions):
     next_question = questions[st.session_state.current_question_index] if len(st.session_state.responses) % 2 == 0 else st.session_state.follow_ups[-1]
     st.write("Bot:", next_question)
-    user_input = st.text_input("Your Response:")
+    user_input = st.text_input("Your Response:", key=f"user_input_{st.session_state.current_question_index}")
     submit_key = f"submit_button_{st.session_state.current_question_index}"
     if st.button("Submit", key=submit_key):
         st.session_state.responses.append(user_input)
@@ -37,13 +37,21 @@ if st.session_state.current_question_index < len(questions):
         else:
             st.session_state.current_question_index += 1
 
-if st.session_state.current_question_index < len(questions):
-    next_question = questions[st.session_state.current_question_index] if len(st.session_state.responses) % 2 == 0 else st.session_state.follow_ups[-1]
-    st.write("Bot:", next_question)
-    user_input = st.text_input("Your Response:", value="", key="user_input")
-    if st.button("Submit"):
-        handle_input(user_input)
-else:
+with st.container():
+    for i in range(len(st.session_state.responses)):
+        question_text = questions[i // 2] if i % 2 == 0 else st.session_state.follow_ups[i // 2]
+        st.write("Bot:", question_text)
+        st.write("You:", st.session_state.responses[i])
+
+def save_chat_history():
+    chat_history = "\n".join([f"Bot: {questions[i // 2] if i % 2 == 0 else st.session_state.follow_ups[i // 2]}\nYou: {resp}" for i, resp in enumerate(st.session_state.responses)])
+    demographics_data = "\n".join([f"{key}: {value}" for key, value in st.session_state.demographics.items()])
+    complete_history = f"{chat_history}\n\n--- Demographics ---\n{demographics_data}"
+    current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_path = f"content/chat_history_{current_time}.txt"
+    repo.create_file(file_path, "Add chat history", complete_history)
+
+if st.session_state.current_question_index >= len(questions):
     st.subheader("We just need a bit more information, especially if you are eligible for an incentive.")
     st.session_state.demographics['Full Name'] = st.text_input("Full Name:")
     st.session_state.demographics['Email Address'] = st.text_input("Email Address:")
