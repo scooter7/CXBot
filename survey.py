@@ -55,8 +55,7 @@ if st.session_state.current_question_index < len(questions):
     
     user_input = st.text_area("Your Response:", value=st.session_state.get('user_input', ''), key="user_input")
     
-    submit_button = st.button("Submit")
-    if submit_button:
+    if st.button("Submit"):
         st.session_state.user_input = user_input
         handle_input()
 else:
