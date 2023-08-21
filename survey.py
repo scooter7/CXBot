@@ -1,7 +1,6 @@
 from github import Github
 import streamlit as st
 from datetime import datetime
-import sys
 import requests
 
 openai_api_key = st.secrets["OPENAI_API_KEY"]
@@ -39,18 +38,10 @@ def handle_input(user_input):
     else:
         st.session_state.current_question_index += 1
 
-def save_chat_history():
-    chat_history = "\n".join([f"Bot: {questions[i // 2] if i % 2 == 0 else st.session_state.follow_ups[i // 2]}\nYou: {resp}" for i, resp in enumerate(st.session_state.responses)])
-    demographics_data = "\n".join([f"{key}: {value}" for key, value in st.session_state.demographics.items()])
-    complete_history = f"{chat_history}\n\n--- Demographics ---\n{demographics_data}"
-    current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
-    file_path = f"content/chat_history_{current_time}.txt"
-    repo.create_file(file_path, "Add chat history", complete_history)
-
 if st.session_state.current_question_index < len(questions):
     next_question = questions[st.session_state.current_question_index] if len(st.session_state.responses) % 2 == 0 else st.session_state.follow_ups[-1]
     st.write("Bot:", next_question)
-    user_input = st.text_input("Your Response:", value=st.session_state.get('user_input', ''), key="user_input")
+    user_input = st.text_input("Your Response:", value="", key="user_input")
     if st.button("Submit"):
         handle_input(user_input)
 else:
