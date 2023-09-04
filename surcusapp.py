@@ -22,8 +22,13 @@ def get_followup_question(response, question):
     framed_prompt = f"The user was asked: '{question}'. They replied: '{response}'. What would be a good follow-up question?"
     data = {"model": "gpt-3.5-turbo", "messages": [{"role": "system", "content": "You are a helpful assistant."},{"role": "user", "content": framed_prompt},{"role": "assistant", "content": ""}],"temperature": 0.7}
     response = requests.post('https://api.openai.com/v1/chat/completions', headers=headers, json=data)
-    follow_up = response.json()['choices'][0]['message']['content'].strip()
-    return follow_up.replace("A good follow-up question could be:", "").strip()
+    response_data = response.json()
+    if 'choices' in response_data:
+        follow_up = response_data['choices'][0]['message']['content'].strip()
+        return follow_up.replace("A good follow-up question could be:", "").strip()
+    else:
+        st.error(f"Error in getting follow-up question: {response_data.get('error', 'Unknown error')}")
+        return "Could not generate a follow-up question at this time."
 
 def handle_input():
     user_input = st.session_state.user_input
