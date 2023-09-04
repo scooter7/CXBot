@@ -7,7 +7,6 @@ from datetime import datetime
 import requests
 
 openai_api_key = st.secrets["OPENAI_API_KEY"]
-g = Github(st.secrets["GITHUB_TOKEN"])
 
 s3 = boto3.client('s3', aws_access_key_id=st.secrets["AWS"]["aws_access_key_id"], aws_secret_access_key=st.secrets["AWS"]["aws_secret_access_key"])
 bucket_name = st.secrets["AWS"]["bucket_name"]
