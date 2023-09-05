@@ -6,6 +6,10 @@ from io import StringIO
 from datetime import datetime
 import requests
 
+if "OPENAI_API_KEY" not in st.secrets:
+    st.error("Please set the OPENAI_API_KEY secret on the Streamlit dashboard.")
+    sys.exit(1)
+
 openai_api_key = st.secrets["OPENAI_API_KEY"]
 
 s3 = boto3.client('s3', aws_access_key_id=st.secrets["AWS"]["aws_access_key_id"], aws_secret_access_key=st.secrets["AWS"]["aws_secret_access_key"])
