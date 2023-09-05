@@ -5,12 +5,10 @@ import pandas as pd
 from io import StringIO
 from datetime import datetime
 import requests
-import os
-import sys
 
 if "OPENAI_API_KEY" not in st.secrets:
     st.error("Please set the OPENAI_API_KEY secret on the Streamlit dashboard.")
-    sys.exit(1)
+    return
 
 openai_api_key = st.secrets["OPENAI_API_KEY"]
 
