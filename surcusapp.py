@@ -41,16 +41,18 @@ if "OPENAI_API_KEY" in st.secrets:
         st.session_state.user_input = ""
 
     def save_chat_history():
-        columns = ["Q1", "Q1_Followup", "Q2", "Q2_Followup", "Q3", "Q3_Followup", "Q3_Followup_Response", "Full Name", "Email Address", "Gender Identity", "Age", "Ethnicity", "Zip Code"]
+        columns = ["Q1", "Q1_Followup", "Q2", "Q2_Followup", "Q3", "Q3_Followup", "Q3_Followup_Response", "Full Name", "Email Address", "Gender", "Age", "Describes", "Zip Code"]
         data = {}
         responses_and_followups = [item for sublist in zip(st.session_state.responses[::2], st.session_state.follow_ups) for item in sublist]
-        responses_and_followups.append(st.session_state.responses[-1] if len(st.session_state.responses) % 2 == 1 else None)
+        q3_followup_response = st.session_state.responses[-1] if len(st.session_state.responses) % 2 == 1 else None
+        responses_and_followups.append(q3_followup_response)
         responses_and_followups = responses_and_followups + [None] * (7 - len(responses_and_followups))
         data.update({columns[i]: responses_and_followups[i] for i in range(7)})
         data.update(st.session_state.demographics)
         df = pd.DataFrame([data], columns=columns)
         upload_csv_to_s3(df)
         st.write("Data saved to S3 bucket.")
+
 
     questions = ['Q1: Why did you visit our website today?', 'Q2: Where are you in your college decision process?', 'Q3: What are you thinking of majoring in?']
     st.session_state.setdefault('current_question_index', 0)
